@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Рыбинский квест</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    >
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-body d-flex flex-column">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-nav shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-semibold" href="{{ url_for('index') }}">
+            🧭 Рыбинский квест
+        </a>
+    </div>
+</nav>
+
+<header class="hero-section">
+    <div class="container hero-inner text-center">
+        <h1 class="display-6 fw-semibold text-hero-title mb-2">
+            Прогулка по Рыбинску
+        </h1>
+        <p class="lead text-hero-subtitle mb-0">
+            Отгадывай места, находи детали и отмечай правильно решённые задания.
+        </p>
+    </div>
+</header>
+
+<main class="flex-grow-1">
+    <div class="container py-4">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-container mb-3">
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<footer class="bg-footer text-center text-muted py-3 mt-auto">
+    <small>Квест по Рыбинску · сделано с заботой</small>
+</footer>
+
+<!-- Bootstrap JS bundle -->
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"
+></script>
+
+<!-- Custom JS -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

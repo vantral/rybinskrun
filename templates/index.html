@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Player code bar -->
+<div class="row justify-content-center mb-4">
+    <div class="col-12 col-lg-8 col-xl-7">
+        <div class="card shadow-sm border-0 profile-card">
+            <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div>
+                    <div class="small text-muted mb-1">
+                        Код игрока
+                    </div>
+                    {% if player_code %}
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <div class="badge bg-accent-soft text-accent fw-semibold px-3 py-2 rounded-pill">
+                                {{ player_code }}
+                            </div>
+                            <span class="small text-muted">
+                                Используй этот код на любом устройстве, чтобы продолжить квест.
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="small text-muted">
+                            Придумай короткий код (слово или фразу), запомни его и используй на других устройствах.
+                        </div>
+                    {% endif %}
+                </div>
+                <form method="post" action="{{ url_for('set_profile') }}" class="d-flex gap-2 flex-wrap">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      name="player_code"
+                      placeholder="Например, volga-2025"
+                      value="{{ player_code or '' }}"
+                    >
+                    <button type="submit" class="btn btn-sm btn-accent">
+                        {{ 'Изменить' if player_code else 'Сохранить' }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Questions, centered -->
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-9 col-xl-8">
+
+        {% for category, questions in questions_by_category.items() %}
+          <section class="mb-5">
+              <div class="category-header d-flex align-items-center mb-3">
+                  <div class="category-line flex-grow-1"></div>
+                  <div class="category-chip text-uppercase small fw-semibold mx-3">
+                      {{ category }}
+                  </div>
+                  <div class="category-line flex-grow-1 d-none d-sm-block"></div>
+              </div>
+
+              <div class="category-description mb-4 p-3 rounded shadow-sm">
+                <p class="mb-0">{{ category_descriptions[category] }}</p>
+              </div>
+
+              <div class="question-stack">
+              {% for q in questions %}
+                {% set progress = player_progress.get(q.id|string) %}
+                {% set is_solved = progress and progress.get("correct") %}
+                <article
+                  class="card question-card shadow-sm border-0 {% if is_solved %}question-card-solved{% endif %}"
+                  id="question-{{ q.id }}"
+                >
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge question-number">
+                                    #{{ q.id }}
+                                </span>
+                                {% if is_solved %}
+                                  <span class="badge bg-success-soft text-success small">
+                                      ✔️ Отгадано
+                                  </span>
+                                {% endif %}
+                            </div>
+
+                            {% if q.hint %}
+                                <button
+                                  class="btn btn-sm btn-outline-accent"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target="#hint-{{ q.id }}"
+                                  aria-expanded="false"
+                                  aria-controls="hint-{{ q.id }}"
+                                >
+                                    Подсказка
+                                </button>
+                            {% endif %}
+                        </div>
+
+                        {% if q.question %}
+                          <p class="question-text mb-3">
+                              {{ q.question }}
+                          </p>
+                        {% endif %}
+
+                        {% if q.media %}
+                          <div class="question-media mb-3">
+                            {% if q.media.endswith(".png") or q.media.endswith(".jpg") or q.media.endswith(".jpeg") or q.media.endswith(".gif") %}
+                                <img src="{{ q.media }}" alt="Место для вопроса {{ q.id }}" class="img-fluid rounded media-image">
+                            {% else %}
+                                <a href="{{ q.media }}" target="_blank" class="link-accent">
+                                    Открыть медиа
+                                </a>
+                            {% endif %}
+                          </div>
+                        {% endif %}
+
+                        {% if q.hint %}
+                          <div class="collapse mt-2" id="hint-{{ q.id }}">
+                              <div class="alert alert-hint mb-0">
+                                  <strong>Подсказка:</strong> {{ q.hint }}
+                              </div>
+                          </div>
+                        {% endif %}
+
+                        {% if is_solved and (progress.text or progress.link) %}
+                        <div class="solved-extra mt-3 p-3 rounded">
+                            {% if progress.link %}
+                                <div class="mb-2">
+                                    {% if progress.link.endswith(".png") or progress.link.endswith(".jpg") or progress.link.endswith(".jpeg") or progress.link.endswith(".gif") %}
+                                        <img src="{{ progress.link }}" alt="Отгаданное место {{ q.id }}" class="img-fluid rounded solved-image">
+                                    {% else %}
+                                        <a href="{{ progress.link }}" target="_blank" class="link-accent">
+                                            Открыть ссылку
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {% if progress.text %}
+                                <div class="small text-muted">
+                                    {{ progress.text }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                        <hr class="my-3">
+
+                        <form method="post" action="{{ url_for('submit_answer') }}" class="answer-form" data-question-id="{{ q.id }}">
+                            <input type="hidden" name="question_id" value="{{ q.id }}">
+
+                            <div class="row g-3 align-items-center mb-3">
+                                <div class="col-auto">
+                                    <span class="form-label form-label-sm mb-0">Тип ответа:</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                          class="form-check-input answer-mode-toggle"
+                                          type="radio"
+                                          name="answer_mode"
+                                          id="answer-mode-text-{{ q.id }}"
+                                          value="text"
+                                          checked
+                                          data-question-id="{{ q.id }}"
+                                        >
+                                        <label class="form-check-label" for="answer-mode-text-{{ q.id }}">
+                                            Текст
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                          class="form-check-input answer-mode-toggle"
+                                          type="radio"
+                                          name="answer_mode"
+                                          id="answer-mode-address-{{ q.id }}"
+                                          value="address"
+                                          data-question-id="{{ q.id }}"
+                                        >
+                                        <label class="form-check-label" for="answer-mode-address-{{ q.id }}">
+                                            Адрес
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Text answer block -->
+                            <div class="answer-block answer-block-text" id="answer-text-block-{{ q.id }}">
+                                <label class="form-label form-label-sm" for="answer-text-{{ q.id }}">
+                                    Ответ
+                                </label>
+                                <textarea
+                                  class="form-control form-control-sm"
+                                  id="answer-text-{{ q.id }}"
+                                  name="answer_text"
+                                  rows="2"
+                                  placeholder="Введите ответ…"
+                                ></textarea>
+                            </div>
+
+                            <!-- Address answer block -->
+                            <div class="answer-block answer-block-address d-none" id="answer-address-block-{{ q.id }}">
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label form-label-sm" for="street-type-{{ q.id }}">
+                                            Тип улицы
+                                        </label>
+                                        <select
+                                          class="form-select form-select-sm"
+                                          id="street-type-{{ q.id }}"
+                                          name="street_type"
+                                        >
+                                            <option value="улица">улица</option>
+                                            <option value="переулок">переулок</option>
+                                            <option value="набережная">набережная</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label form-label-sm" for="street-name-{{ q.id }}">
+                                            Название улицы
+                                        </label>
+                                        <input
+                                          type="text"
+                                          class="form-control form-control-sm"
+                                          id="street-name-{{ q.id }}"
+                                          name="street_name"
+                                          placeholder="Например, Ленина"
+                                        >
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label form-label-sm" for="house-number-{{ q.id }}">
+                                            Номер дома
+                                        </label>
+                                        <input
+                                          type="text"
+                                          class="form-control form-control-sm"
+                                          id="house-number-{{ q.id }}"
+                                          name="house_number"
+                                          placeholder="Например, 12"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-accent btn-sm">
+                                    Отправить ответ
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+              {% endfor %}
+              </div>
+          </section>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

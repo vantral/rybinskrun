@@ -1,0 +1,412 @@
+/* =========================================
+   GLOBAL: COLORS & TYPOGRAPHY
+   ========================================= */
+
+:root {
+    /* Rybinsk-ish palette: Volga blues, brick facades, golden light */
+    --volga-deep: #123d6b;
+    --volga-light: #3f7fb6;
+    --brick: #c75b39;
+    --brick-dark: #9f4127;
+    --sand: #f4e1c6;
+    --sand-soft: #faefe1;
+    --teal-soft: #e0f4f2;
+    --accent-yellow: #ffcc66;
+    --accent-mint: #8fd5b5;
+    --neutral-soft: #f4f6fb;
+    --text-main: #222831;
+    --text-muted: #6c757d;
+
+    --radius-lg: 1.1rem;
+    --shadow-soft: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.12);
+    --shadow-subtle: 0 0.3rem 0.9rem rgba(0, 0, 0, 0.08);
+}
+
+html {
+    font-size: 17px; /* Make everything a tad bigger and easier to read */
+}
+
+body.bg-body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+    color: var(--text-main);
+    background:
+        radial-gradient(circle at top left, rgba(63, 127, 182, 0.25), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(199, 91, 57, 0.2), transparent 55%),
+        linear-gradient(145deg, #fdf7ef, #f3f6fc);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   NAVBAR & FOOTER
+   ========================================= */
+
+.bg-nav {
+    background: linear-gradient(90deg, var(--volga-deep), #152c46);
+    box-shadow: 0 0.4rem 0.8rem rgba(9, 26, 52, 0.4);
+}
+
+.navbar-brand {
+    font-size: 1.1rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.bg-footer {
+    background-color: rgba(248, 249, 250, 0.92);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+footer small {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   HERO SECTION
+   ========================================= */
+
+.hero-section {
+    background:
+        radial-gradient(circle at top, rgba(255, 204, 102, 0.35), transparent 60%),
+        linear-gradient(to right, rgba(18, 61, 107, 0.07), rgba(199, 91, 57, 0.07));
+    padding: 2.4rem 0 1.7rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.hero-inner {
+    max-width: 820px;
+}
+
+.text-hero-title {
+    color: var(--volga-deep);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.text-hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.02rem;
+}
+
+/* =========================================
+   FLASH MESSAGES
+   ========================================= */
+
+.flash-container .alert {
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-subtle);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #e6f8ed, #d1f1e0);
+    border-color: #9bd7b1;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #ffe0e0, #ffd3cf);
+    border-color: #ff9b8b;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fff7dd, #ffecc0);
+    border-color: #ffd881;
+}
+
+/* =========================================
+   PROFILE / PLAYER CODE CARD
+   ========================================= */
+
+.profile-card {
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--shadow-subtle);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.profile-card .card-body {
+    padding: 1rem 1.25rem;
+}
+
+.profile-card .badge {
+    font-size: 0.9rem;
+}
+
+.bg-accent-soft {
+    background: linear-gradient(135deg, #fae2d8, #ffe3d0);
+}
+
+.text-accent {
+    color: var(--brick-dark);
+}
+
+/* =========================================
+   CATEGORY HEADER
+   ========================================= */
+
+.category-header {
+    align-items: center;
+}
+
+.category-line {
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(to right, transparent, rgba(18, 61, 107, 0.4));
+}
+
+.category-chip {
+    padding: 0.25rem 1rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--volga-deep), var(--volga-light));
+    color: #fdfdfd;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   QUESTIONS
+   ========================================= */
+
+.question-stack > .question-card + .question-card {
+    margin-top: 1.3rem;
+}
+
+.question-card {
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.98);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(4px);
+}
+
+.question-card .card-body {
+    padding: 1.4rem 1.6rem 1.3rem;
+}
+
+.question-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at top left, rgba(18, 61, 107, 0.09), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(199, 91, 57, 0.08), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+    pointer-events: none;
+}
+
+.question-card:hover::before {
+    opacity: 1;
+}
+
+/* Solved state */
+
+.question-card-solved {
+    border: 1px solid var(--accent-mint);
+    box-shadow: 0 0.6rem 1.4rem rgba(143, 213, 181, 0.55);
+}
+
+.question-card-solved::before {
+    background:
+        linear-gradient(135deg, rgba(143, 213, 181, 0.4), transparent 65%),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.5), transparent 55%);
+    opacity: 1;
+}
+
+.bg-success-soft {
+    background-color: #e4faee;
+}
+
+/* Number badge */
+
+.question-number {
+    background: linear-gradient(135deg, var(--volga-deep), #1c547e);
+    color: #f8f9fa;
+    font-size: 0.85rem;
+    padding-inline: 0.65rem;
+    padding-block: 0.35rem;
+    border-radius: 999px;
+}
+
+/* Question text & media */
+
+.question-text {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text-main);
+}
+
+.question-media .media-image {
+    border-radius: 0.85rem;
+    border: 2px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Hint */
+
+.alert-hint {
+    background: linear-gradient(135deg, #fff4d0, #ffe9aa);
+    border-color: #f7d573;
+    color: #79520f;
+    font-size: 0.9rem;
+}
+
+/* Extra content for solved questions */
+
+.solved-extra {
+    background: linear-gradient(135deg, #f1fff7, #e0f7ec);
+    border: 1px solid #c0ecd5;
+    border-radius: 0.9rem;
+}
+
+.solved-extra .solved-image {
+    border-radius: 0.85rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.4rem 0.9rem rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================
+   FORMS
+   ========================================= */
+
+.form-label-sm {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+}
+
+/* general controls */
+
+.form-control,
+.form-select {
+    font-size: 0.95rem;
+    border-radius: 0.5rem;
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--volga-light);
+    box-shadow: 0 0 0 0.15rem rgba(63, 127, 182, 0.25);
+}
+
+/* answer blocks */
+
+.answer-block {
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.answer-block.d-none {
+    opacity: 0;
+    transform: translateY(-4px);
+}
+
+/* radio labels */
+
+.form-check-label {
+    font-size: 0.92rem;
+}
+
+/* =========================================
+   BUTTONS & LINKS
+   ========================================= */
+
+.btn-accent {
+    background: linear-gradient(135deg, var(--brick), var(--brick-dark));
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    padding-inline: 1.1rem;
+    padding-block: 0.45rem;
+    border-radius: 999px;
+    box-shadow: 0 0.35rem 0.7rem rgba(156, 65, 40, 0.4);
+}
+
+.btn-accent:hover {
+    background: linear-gradient(135deg, #d46b42, #b7492b);
+    color: #fff;
+    box-shadow: 0 0.45rem 0.9rem rgba(156, 65, 40, 0.55);
+}
+
+.btn-accent:active {
+    transform: translateY(1px);
+    box-shadow: 0 0.25rem 0.6rem rgba(156, 65, 40, 0.5);
+}
+
+.btn-outline-accent {
+    color: var(--brick);
+    border-color: var(--brick);
+    border-radius: 999px;
+    font-size: 0.9rem;
+}
+
+.btn-outline-accent:hover {
+    background: linear-gradient(135deg, #ffe2d7, #ffd1c0);
+    color: var(--brick-dark);
+    border-color: var(--brick-dark);
+}
+
+/* smaller buttons (like in profile card) inherit accent theme */
+.btn.btn-sm.btn-accent {
+    padding-block: 0.35rem;
+}
+
+/* links */
+
+.link-accent {
+    color: var(--volga-light);
+    text-decoration: underline dotted;
+    text-underline-offset: 0.15em;
+}
+
+.link-accent:hover {
+    color: var(--volga-deep);
+    text-decoration-style: solid;
+}
+
+/* =========================================
+   RESPONSIVE TWEAKS
+   ========================================= */
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 1.6rem 0 1.2rem;
+    }
+
+    .question-card .card-body {
+        padding: 1.1rem 1.1rem 1.05rem;
+    }
+
+    html {
+        font-size: 16px;
+    }
+}
+.category-description {
+    background: linear-gradient(
+        135deg,
+        rgba(63, 127, 182, 0.12),
+        rgba(199, 91, 57, 0.12)
+    );
+    border-left: 6px solid var(--volga-deep);
+    border-radius: 0.9rem;
+
+    /* Better readability */
+    color: var(--volga-deep);
+    font-weight: 500;
+
+    padding: 1rem 1.25rem;
+    line-height: 1.55;
+    font-size: 1.05rem;
+
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.05);
+}
+
+.btn-close {
+    padding: 0.7rem 1rem !important;
+}
