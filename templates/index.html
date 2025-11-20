@@ -96,6 +96,18 @@
                             {% endif %}
                         </div>
 
+                        {% if last_question_id == q.id and last_status %}
+                            {% if last_status == 'ok' %}
+                            <div style="display: none;" class="question-inline-alert mt-1 mb-2 alert alert-sm {% if last_status == 'ok' %}alert-success{% else %}alert-danger{% endif %}">
+                                Верно!
+                            </div>
+                            {% else %}
+                            <div class="question-inline-alert mt-1 mb-2 alert alert-sm {% if last_status == 'ok' %}alert-success{% else %}alert-danger{% endif %}">
+                                Пока что неверно. Попробуй ещё раз.
+                            </div>
+                            {% endif %}
+                        {% endif %}
+
                         {% if q.question %}
                           <p class="question-text mb-3">
                               {{ q.question }}
@@ -115,10 +127,23 @@
                         {% endif %}
 
                         {% if q.hint %}
-                          <div class="collapse mt-2" id="hint-{{ q.id }}">
+                          <div class="collapse mt-2" id="hint-{{ q.id }}" style="height: max-content;">
+                            <span style="font-weight: bold;cursor: default;border: none;" class="btn" disabled>А без подсказки слабо?</span>
+                            <button
+                                  class="btn btn-sm btn-outline-accent"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target="#hint-{{ q.id }}-2"
+                                  aria-expanded="false"
+                                  aria-controls="hint-{{ q.id }}-2"
+                                >
+                                    Да!
+                            </button>
+                            <div class="collapse mt-2" id="hint-{{ q.id }}-2">
                               <div class="alert alert-hint mb-0">
                                   <strong>Подсказка:</strong> {{ q.hint }}
                               </div>
+                            </div>
                           </div>
                         {% endif %}
 
@@ -126,18 +151,12 @@
                         <div class="solved-extra mt-3 p-3 rounded">
                             {% if progress.link %}
                                 <div class="mb-2">
-                                    {% if progress.link.endswith(".png") or progress.link.endswith(".jpg") or progress.link.endswith(".jpeg") or progress.link.endswith(".gif") %}
-                                        <img src="{{ progress.link }}" alt="Отгаданное место {{ q.id }}" class="img-fluid rounded solved-image">
-                                    {% else %}
-                                        <a href="{{ progress.link }}" target="_blank" class="link-accent">
-                                            Открыть ссылку
-                                        </a>
-                                    {% endif %}
+                                    <img src="{{ progress.link }}" alt="Отгаданное место {{ q.id }}" class="img-fluid rounded solved-image">
                                 </div>
                             {% endif %}
                             {% if progress.text %}
                                 <div class="small text-muted">
-                                    {{ progress.text }}
+                                    {{ progress.text.replace('\n', '<br>') | safe }}
                                 </div>
                             {% endif %}
                         </div>
@@ -188,13 +207,12 @@
                                 <label class="form-label form-label-sm" for="answer-text-{{ q.id }}">
                                     Ответ
                                 </label>
-                                <textarea
+                                <input
                                   class="form-control form-control-sm"
                                   id="answer-text-{{ q.id }}"
                                   name="answer_text"
-                                  rows="2"
                                   placeholder="Введите ответ…"
-                                ></textarea>
+                                >
                             </div>
 
                             <!-- Address answer block -->
@@ -255,5 +273,12 @@
         {% endfor %}
     </div>
 </div>
+
+{% if last_question_id %}
+  <div id="last-question-meta"
+       data-last-question-id="{{ last_question_id }}"
+       data-last-status="{{ last_status | default('') }}">
+  </div>
+{% endif %}
 
 {% endblock %}

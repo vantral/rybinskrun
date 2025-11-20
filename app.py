@@ -338,12 +338,23 @@ def index():
 
     player_code = get_player_code()
     player_progress = get_player_progress(player_code)
+    
+    last_q_raw = request.args.get("last_q")
+    last_status = request.args.get("last_status")
+    try:
+        last_question_id = int(last_q_raw) if last_q_raw is not None else None
+    except ValueError:
+        last_question_id = None
+        last_status = None
+
     return render_template(
         "index.html",
         questions_by_category=QUESTIONS_BY_CATEGORY,
         player_code=player_code,
         player_progress=player_progress,
-        category_descriptions=CATEGORY_DESCRIPTIONS,  # if you have this
+        category_descriptions=CATEGORY_DESCRIPTIONS,
+        last_question_id=last_question_id,
+        last_status=last_status,
     )
 
 
@@ -436,7 +447,6 @@ def submit_answer():
     result = check_answer_local(question, answer_mode, checker_input)
 
     if result["correct"]:
-        flash("Верно! ✔️", "success")
         update_player_progress(
             player_code,
             question_id,
@@ -446,10 +456,13 @@ def submit_answer():
                 "link": result["link"],
             },
         )
+        status = "ok"
     else:
-        flash("Пока что неверно. Попробуй ещё раз.", "danger")
+        status = "bad"
 
-    return redirect(url_for("index"))
+    # pass info about which question was answered and the result
+    return redirect(url_for("index", last_q=question_id, last_status=status))
+
 
 
 @app.route("/clear_progress", methods=["GET"])

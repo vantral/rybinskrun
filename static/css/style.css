@@ -15,7 +15,7 @@
     --accent-mint: #8fd5b5;
     --neutral-soft: #f4f6fb;
     --text-main: #222831;
-    --text-muted: #6c757d;
+    --text-muted: #061e33;
 
     --radius-lg: 1.1rem;
     --shadow-soft: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.12);
@@ -89,6 +89,7 @@ footer small {
 .text-hero-subtitle {
     color: var(--text-muted);
     font-size: 1.02rem;
+    font-weight: 500;
 }
 
 /* =========================================
@@ -100,6 +101,8 @@ footer small {
     padding: 0.5rem 1.1rem;
     font-size: 0.9rem;
     box-shadow: var(--shadow-subtle);
+    width: min(50em, 100%);
+    margin: auto;
 }
 
 .alert-success {
@@ -164,7 +167,7 @@ footer small {
     background: linear-gradient(135deg, var(--volga-deep), var(--volga-light));
     color: #fdfdfd;
     letter-spacing: 0.18em;
-    font-size: 0.75rem;
+    font-size: 1rem;
     text-transform: uppercase;
 }
 
@@ -194,9 +197,6 @@ footer small {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(circle at top left, rgba(18, 61, 107, 0.09), transparent 55%),
-        radial-gradient(circle at bottom right, rgba(199, 91, 57, 0.08), transparent 60%);
     opacity: 0;
     transition: opacity 0.25s ease-out;
     pointer-events: none;
@@ -211,13 +211,14 @@ footer small {
 .question-card-solved {
     border: 1px solid var(--accent-mint);
     box-shadow: 0 0.6rem 1.4rem rgba(143, 213, 181, 0.55);
+    background:
+        radial-gradient(circle at top, rgba(143, 213, 181, 0.4), transparent 50%),
+        linear-gradient(to right, rgba(113, 255, 175, 0.1));
+    opacity: 1;
 }
 
-.question-card-solved::before {
-    background:
-        linear-gradient(135deg, rgba(143, 213, 181, 0.4), transparent 65%),
-        radial-gradient(circle at top right, rgba(255, 255, 255, 0.5), transparent 55%);
-    opacity: 1;
+.question-card-solved:hover::before {
+    opacity: 0;
 }
 
 .bg-success-soft {
@@ -270,6 +271,7 @@ footer small {
     border-radius: 0.85rem;
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0 0.4rem 0.9rem rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
 /* =========================================
@@ -344,6 +346,7 @@ footer small {
     border-color: var(--brick);
     border-radius: 999px;
     font-size: 0.9rem;
+    background-color: white;
 }
 
 .btn-outline-accent:hover {
@@ -409,4 +412,15 @@ footer small {
 
 .btn-close {
     padding: 0.7rem 1rem !important;
+}
+
+.question-card-solved form {
+    display: none;
+}
+
+.question-inline-alert {
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.9rem;
+    display: inline-block;
 }

@@ -18,4 +18,16 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    // ---- scroll to last answered question ----
+    const meta = document.getElementById("last-question-meta");
+    if (meta) {
+        const qid = meta.getAttribute("data-last-question-id");
+        if (qid) {
+            const card = document.getElementById(`question-${qid}`);
+            if (card) {
+                card.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+    }
 });
