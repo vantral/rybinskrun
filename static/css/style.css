@@ -424,3 +424,33 @@ footer small {
     font-size: 0.9rem;
     display: inline-block;
 }
+/* =========================================
+   ANSWER LINK STYLE (always clearly a link)
+   ========================================= */
+
+.answer-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75em;
+    margin-bottom: 1em;
+
+    padding: 0.35rem 0.7rem;
+    border-radius: 0.65rem;
+
+    background-color: rgba(63,127,182,0.10); /* soft blue */
+    border: 1px solid rgba(63,127,182,0.35);
+
+    /* Always looks like a link */
+    color: var(--volga-deep);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: underline;    /* <-- always underlined */
+    cursor: pointer;
+}
+
+.answer-name:hover {
+    background-color: rgba(63,127,182,0.18);
+    border-color: rgba(63,127,182,0.55);
+    color: #0f2f4f;
+}

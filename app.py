@@ -112,6 +112,9 @@ def load_questions():
         answer_text = (row.get("answer") or "").strip()
         answer_link = (row.get("link") or "").strip()
 
+        answer_title = (row.get("title") or "").strip()
+        answer_yaddress = (row.get("yaddress") or "").strip()
+
         q = {
             "id": q_id,
             "category": category,
@@ -126,6 +129,8 @@ def load_questions():
             "house_n": house_n,
             "answer_text": answer_text,
             "answer_link": answer_link,
+            "answer_title": answer_title,
+            "answer_yaddress": answer_yaddress
         }
 
         questions_by_id[q_id] = q
@@ -288,6 +293,8 @@ def check_answer_local(question, answer_mode, user_data):
         "correct": bool(correct),
         "text": question.get("answer_text") or "",
         "link": question.get("answer_link") or "",
+        "title": question.get("answer_title") or "",
+        "yaddress": question.get("answer_yaddress") or ""
     }
 
 
@@ -315,13 +322,19 @@ def sync_progress_with_questions(player_progress):
 
         new_text = q.get("answer_text") or ""
         new_link = q.get("answer_link") or ""
+        new_title = q.get("answer_title") or ""
+        new_yaddress = q.get("answer_yaddress") or ""
 
         old_text = pdata.get("text", "")
         old_link = pdata.get("link", "")
+        old_title = pdata.get("title", "")
+        old_yaddress = pdata.get("yaddress", "")
 
         if old_text != new_text or old_link != new_link:
             pdata["text"] = new_text
             pdata["link"] = new_link
+            pdata["title"] = new_title
+            pdata["yaddress"] = new_yaddress
             changed = True
 
     return player_progress, changed
@@ -454,6 +467,8 @@ def submit_answer():
                 "correct": True,
                 "text": result["text"],
                 "link": result["link"],
+                "title": result["title"],
+                "yaddress": result["yaddress"]
             },
         )
         status = "ok"

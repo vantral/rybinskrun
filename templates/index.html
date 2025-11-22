@@ -161,6 +161,7 @@
                                 </div>
                             {% endif %}
                             {% if progress.text %}
+                                <a class="answer-name" href="{{ progress.yaddress }}" target="_blank">{{ progress.title }}</a>
                                 <div class="small text-muted">
                                     {{ progress.text.replace('\n', '<br>') | safe }}
                                 </div>
