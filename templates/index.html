@@ -128,7 +128,13 @@
 
                         {% if q.hint %}
                           <div class="collapse mt-2" id="hint-{{ q.id }}" style="height: max-content;">
-                            <span style="font-weight: bold;cursor: default;border: none;" class="btn" disabled>А без подсказки слабо?</span>
+                            <span style="font-weight: bold; cursor: default; border: none;"
+                                class="btn hint-random"
+                                id="hint-{{ q.id }}-text"
+                                data-hints='["А без подсказки слабо?", "Каждая подсказка минус год к жизни", "Ты уверена??", "Каждая подсказка минус один к уважению...", "Решение без подсказки — профилактика Альцгеймера."]'
+                                disabled>
+                                А без подсказки слабо?
+                            </span>
                             <button
                                   class="btn btn-sm btn-outline-accent"
                                   type="button"
@@ -137,7 +143,7 @@
                                   aria-expanded="false"
                                   aria-controls="hint-{{ q.id }}-2"
                                 >
-                                    Да!
+                                    Взять подсказку
                             </button>
                             <div class="collapse mt-2" id="hint-{{ q.id }}-2">
                               <div class="alert alert-hint mb-0">

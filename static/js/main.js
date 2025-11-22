@@ -30,4 +30,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
+    const randomHintSpans = document.querySelectorAll(".hint-random");
+
+    randomHintSpans.forEach(span => {
+        const raw = span.getAttribute("data-hints");
+        if (!raw) return;
+
+        try {
+            const list = JSON.parse(raw);
+            if (Array.isArray(list) && list.length > 0) {
+                const random = list[Math.floor(Math.random() * list.length)];
+                span.textContent = random;
+            }
+        } catch (e) {
+            console.error("Invalid hint list in data-hints:", e);
+        }
+    });
 });
